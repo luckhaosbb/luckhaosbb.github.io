@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="pt-BR" id="html-root">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary Meta Tags -->
+  <title>Extreme Exoplanets — Estudo de Caso de Arquitetura & Engenharia de Software | Lucas Gomes</title>
+  <meta name="title" content="Extreme Exoplanets — Estudo de Caso de Arquitetura & Engenharia de Software | Lucas Gomes" />
+  <meta name="description"
+    content="Estudo de caso da arquitetura do Extreme Exoplanets: shaders 3D WebGL, pipeline de IA em cascata de 4 níveis, proveniência criptográfica W3C PNG e sincronização NASA." />
+  <meta name="author" content="Lucas Gomes" />
+  <meta name="theme-color" content="#07090e" />
+
+  <!-- Favicon SVG -->
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2307090e'/%3E%3Ctext x='50%25' y='55%25' font-family='sans-serif' font-size='15' font-weight='800' fill='%2300f2fe' text-anchor='middle' dominant-baseline='middle'%3ELG%3C/text%3E%3C/svg%3E" />
+
+  <!-- Content Security Policy -->
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://github.com https://*.githubusercontent.com; connect-src 'self';" />
+
+  <!-- Fonts & Stylesheet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+
+<body>
+  <!-- Ambient Background Particle Lights -->
+  <div class="bg-ambient" aria-hidden="true">
+    <div class="glow-orb-1"></div>
+    <div class="glow-orb-2"></div>
+  </div>
+
+  <!-- Top Sticky Navigation Bar -->
+  <header class="case-nav" role="banner">
+    <div class="container case-nav-container">
+      <a href="../index.html#projects" class="btn-back-cv" aria-label="Voltar para a página principal do currículo">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+        <span>Voltar ao Currículo</span>
+      </a>
+
+      <div class="case-nav-actions">
+        <a href="https://github.com/luckhaosbb/exoplanetas-extremos" target="_blank" rel="noopener noreferrer"
+          class="btn-case-action secondary" title="Ver Código no GitHub">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+          </svg>
+          <span>Repositório</span>
+        </a>
+
+        <a href="https://exoplanets.luckhaosbb.dev/" target="_blank" rel="noopener noreferrer"
+          class="btn-case-action primary" title="Abrir Extreme Exoplanets em Produção">
+          <span>Abrir Aplicação</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="case-study-page">
+    <div class="container">
+
+      <!-- Case Hero Section -->
+      <section class="case-hero">
+        <span class="case-hero-tag">// ESTUDO DE CASO DE ARQUITETURA — 3D GRAPHICS, CRYPTO & AI PIPELINE</span>
+        <h1 class="case-hero-title">
+          Extreme Exoplanets — Telemetria Orbital 3D & <br />
+          <span class="gradient-text">Pipeline de IA Resiliente em Cascata</span>
+        </h1>
+        <p class="case-hero-subtitle">
+          Aplicação web astronômica full-stack construída sob padrões corporativos de sistemas distribuídos.
+          Oferece drops diários a cada 24 horas sincronizados com a NASA, sensor de telemetria CRT 3D retro-futurista com shaders dinâmicos, emissão de pôsteres vintage pulp A4 300 DPI com marca d'água esteganográfica HMAC-SHA256 e esteira autônoma de geração de IA com tolerância a falhas em 4 níveis.
+        </p>
+
+        <div class="case-hero-actions">
+          <a href="https://exoplanets.luckhaosbb.dev/" target="_blank" rel="noopener noreferrer"
+            class="btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+            <span>Acessar Projeto em Produção</span>
+          </a>
+
+          <a href="https://github.com/luckhaosbb/exoplanetas-extremos" target="_blank" rel="noopener noreferrer"
+            class="btn-secondary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+            </svg>
+            <span>Ver Repositório GitHub</span>
+          </a>
+
+          <a href="../index.html#projects" class="btn-secondary">
+            <span>← Ver Outros Projetos</span>
+          </a>
+        </div>
+
+        <!-- Key Architectural Metrics -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-header">
+              <svg class="metric-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+              </svg>
+              <span class="metric-label">Pipeline de IA</span>
+            </div>
+            <div class="metric-value">4-Tier Cascade Fallback</div>
+            <p class="metric-desc">SiliconFlow → Cloudflare Workers AI → Hugging Face → Pollinations.ai com zero falhas em execuções de cron semanais.</p>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <svg class="metric-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+              <span class="metric-label">Proveniência</span>
+            </div>
+            <div class="metric-value">HMAC-SHA256 + W3C</div>
+            <p class="metric-desc">Injeção direta de chunks binários PNG (tEXt + CRC-32) com assinatura digital no servidor verificável via <code>/api/verify-token</code>.</p>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <svg class="metric-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+              </svg>
+              <span class="metric-label">Gráficos & Física</span>
+            </div>
+            <div class="metric-value">3D CRT WebGL Shaders</div>
+            <p class="metric-desc">Física com inércia angular amortecida, iluminação tridimensional dinâmica e shaders customizados de tempestades atmosféricas.</p>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <svg class="metric-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+              </svg>
+              <span class="metric-label">Dados Científicos</span>
+            </div>
+            <div class="metric-value">Sincronização NASA TAP</div>
+            <p class="metric-desc">Integração assíncrona com a API NASA Exoplanet Archive e orquestração de notificações transacionais minimalistas via Resend.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 1: Product Vision & User Experience -->
+      <section class="case-section-block">
+        <span class="section-tag">// 01. VISÃO DO PRODUTO & EXPERIÊNCIA</span>
+        <h2 class="case-section-title">Engenharia de Mídia, Ciência & Estética Retro-Pulp</h2>
+
+        <div class="case-split-grid">
+          <div class="case-card-inner">
+            <h3>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 14 14"></polyline>
+              </svg>
+              Ciclo de Rotação Não-Repetitivo (Daily Drop)
+            </h3>
+            <p>
+              A aplicação introduz um ciclo contínuo de drops a cada 24 horas. Uma máquina de estados no servidor gerencia o catálogo astronômico real e calcula a próxima liberação diária sem repetições até a exaustão de todo o catálogo.
+            </p>
+            <ul class="case-list">
+              <li><strong>Rigor Científico Real:</strong> Sincronização via NASA TAP Exoplanet Archive com dados físicos reais (raio, massa, período orbital, temperatura de equilíbrio).</li>
+              <li><strong>Alerta Estilo Tyler Vigen:</strong> Sistema transacional de notificações diárias sem ruído ou distrações, disparado via Resend API.</li>
+            </ul>
+          </div>
+
+          <div class="case-card-inner">
+            <h3>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+              Pôster Vintage Comic A4 Full-Bleed (300 DPI)
+            </h3>
+            <p>
+              Motor gerador de pôsteres procedurais estilizados como capas clássicas de quadrinhos dos anos 70 em formato borderless puro:
+            </p>
+            <ul class="case-list">
+              <li><strong>Full-Bleed 100% Sem Margens:</strong> Arte gerada de borda a borda, sem cortes brancos ou frames artificiais.</li>
+              <li><strong>Retículas Ben-Day & Tipografia Em relevo:</strong> Texturização vintage, estampa sequencial automática (ISSUE #001, ISSUE #002) e selo cósmico de aprovação do curador.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: AI Pipeline & Zero-Failure Fallback Chain -->
+      <section class="case-section-block">
+        <span class="section-tag">// 02. PIPELINE DE INTELIGÊNCIA ARTIFICIAL</span>
+        <h2 class="case-section-title">Esteira Autônoma de IA com Tolerância a Falhas em Cascata</h2>
+
+        <div class="case-card-inner" style="margin-bottom: 1.5rem;">
+          <p>
+            APIs de inferência de modelos generativos sofrem com instabilidades crônicas, timeouts repentinos e limites de requisição. Para garantir 100% de disponibilidade no Daily Drop, a arquitetura implementa uma esteira em lote (batch pipeline) que roda aos sábados às 00:00:00 via cron autônomo com uma cadeia de contingência de 4 níveis:
+          </p>
+
+          <div class="arch-diagram-card" style="margin: 1.5rem 0;">
+            <div class="diagram-layer">
+              <div class="diagram-layer-header">
+                <span class="layer-title">Nível 1 (Provedor Primário)</span>
+                <span class="layer-badge">SiliconFlow API</span>
+              </div>
+              <p style="font-size: 0.88rem; color: var(--text-muted); margin: 0;">Motor primário de alta velocidade e fidelidade gráfica aos prompts pulp dos anos 70.</p>
+            </div>
+
+            <div class="layer-connector">
+              <span>Falha de timeout ou rate limit? Fallback automático ▹</span>
+            </div>
+
+            <div class="diagram-layer">
+              <div class="diagram-layer-header">
+                <span class="layer-title">Nível 2 (Contingência Edge)</span>
+                <span class="layer-badge">Cloudflare Workers AI</span>
+              </div>
+              <p style="font-size: 0.88rem; color: var(--text-muted); margin: 0;">Inferência serverless de baixa latência distribuída globalmente na rede Edge da Cloudflare.</p>
+            </div>
+
+            <div class="layer-connector">
+              <span>Falha de timeout ou rate limit? Fallback automático ▹</span>
+            </div>
+
+            <div class="diagram-layer">
+              <div class="diagram-layer-header">
+                <span class="layer-title">Nível 3 (Contingência de Modelo)</span>
+                <span class="layer-badge">Hugging Face Inference</span>
+              </div>
+              <p style="font-size: 0.88rem; color: var(--text-muted); margin: 0;">Cluster dedicado de modelos de código aberto para garantia de consistência estilística.</p>
+            </div>
+
+            <div class="layer-connector">
+              <span>Falha de timeout ou rate limit? Fallback automático ▹</span>
+            </div>
+
+            <div class="diagram-layer">
+              <div class="diagram-layer-header">
+                <span class="layer-title">Nível 4 (Última Linha de Defesa)</span>
+                <span class="layer-badge">Pollinations.ai</span>
+              </div>
+              <p style="font-size: 0.88rem; color: var(--text-muted); margin: 0;">Redundância de emergência zero-auth para assegurar que nenhum lote semanal fique desabastecido.</p>
+            </div>
+          </div>
+
+          <div class="case-callout">
+            <div class="case-callout-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              Resultado da Resiliência
+            </div>
+            <p>
+              O usuário final que acessa o drop da meia-noite nunca espera pela latência de geração de uma IA em tempo real. A arte já está pré-gerada, com metadados criptografados e armazenada com consistência relacional no PostgreSQL.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Steganography & Cryptographic Watermark -->
+      <section class="case-section-block">
+        <span class="section-tag">// 03. CRIPTOGRAFIA & PROVENIÊNCIA</span>
+        <h2 class="case-section-title">Marca d'Água Esteganográfica & Chunks Binários PNG W3C</h2>
+
+        <div class="case-split-grid">
+          <div class="case-card-inner">
+            <h3>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              Injeção no Nível de Byte (tEXt Chunks)
+            </h3>
+            <p>
+              Em vez de adicionar assinaturas visuais feias na imagem que podem ser removidas com crop, o sistema manipula os bytes brutos do PNG:
+            </p>
+            <ul class="case-list">
+              <li><strong>Padrão W3C de Chunks PNG:</strong> Um chunk customizado do tipo <code>tEXt</code> é calculado e injetado entre o cabeçalho <code>IHDR</code> e o bloco <code>IDAT</code>.</li>
+              <li><strong>Integridade com CRC-32:</strong> Cada chunk recebe um checksum CRC-32 em conformidade com a especificação internacional do formato PNG.</li>
+              <li><strong>Imutabilidade Criptográfica:</strong> O payload contém o número da edição, timestamp e assinatura HMAC-SHA256 gerada com chave mestra no servidor.</li>
+            </ul>
+          </div>
+
+          <div class="case-card-inner">
+            <h3>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00f2fe" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+              Validador Público (/api/verify-token)
+            </h3>
+            <p>
+              Qualquer colecionador ou aplicação externa pode submeter o arquivo PNG original para o endpoint de validação:
+            </p>
+            <ul class="case-list">
+              <li><strong>Extração de Metadados Ocultos:</strong> O parser no backend lê a stream binária e extrai o token digital invisível.</li>
+              <li><strong>Verificação de Assinatura:</strong> A chave HMAC é recalculada contra o banco relacional de emissões (mints), atestando a autenticidade legítima do arquivo.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: 3D Graphics & Shaders -->
+      <section class="case-section-block">
+        <span class="section-tag">// 04. COMPUTAÇÃO GRÁFICA & SHADERS 3D</span>
+        <h2 class="case-section-title">Sensor CRT 3D & Simulação Atmosférica WebGL</h2>
+
+        <div class="case-card-inner">
+          <p style="margin-bottom: 1.5rem;">
+            O sensor orbital interativo na interface web recria o visual de monitores fósforo verde/âmbar de telemetria espacial dos anos 80:
+          </p>
+
+          <div class="tech-spec-grid">
+            <div class="spec-item">
+              <div class="spec-key">Física Angular Amortecida</div>
+              <div class="spec-val">Damped Inertia</div>
+              <p class="spec-detail">O usuário pode girar o exoplaneta com o cursor do mouse ou toque na tela, com simulação física de arrasto e momento de inércia esférico.</p>
+            </div>
+
+            <div class="spec-item">
+              <div class="spec-key">Efeito Scanline CRT</div>
+              <div class="spec-val">Post-Processing</div>
+              <p class="spec-detail">Linhas de varredura catódica procedurais, aberração cromática nas bordas da esfera e oscilação de taxa de atualização.</p>
+            </div>
+
+            <div class="spec-item">
+              <div class="spec-key">Shaders Customizados</div>
+              <div class="spec-val">Condições Extremas</div>
+              <p class="spec-detail">Relevos e fluxos atmosféricos proceduralmente ajustados: chuva de silicatos a Mach 7, precipitação de ferro fundido e ejeção de plasma estelar.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: Layered Clean Architecture & Codebase -->
+      <section class="case-section-block">
+        <span class="section-tag">// 05. ARQUITETURA EM CAMADAS & CÓDIGO</span>
+        <h2 class="case-section-title">Estrutura em Camadas Desacopladas (Clean Layered)</h2>
+
+        <div class="tech-spec-grid" style="margin-bottom: 2rem;">
+          <div class="spec-item">
+            <div class="spec-key">Backend Runtime</div>
+            <div class="spec-val">Node.js + Express</div>
+            <div class="spec-detail">Separação estrita em Controllers, Services e Repositories</div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-key">Persistência</div>
+            <div class="spec-val">PostgreSQL Connection Pool</div>
+            <div class="spec-detail">DDL auto-migrante no bootstrap</div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-key">Gráficos & 3D</div>
+            <div class="spec-val">WebGL / Three.js Shaders</div>
+            <div class="spec-detail">Física de amortecimento e efeitos CRT</div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-key">APIs Externas</div>
+            <div class="spec-val">NASA TAP Archive + Resend</div>
+            <div class="spec-detail">Integração científica e e-mails transacionais</div>
+          </div>
+        </div>
+
+        <pre class="code-tree-block"><code><span class="tree-folder">exoplanetas-extremos/</span>
+├── <span class="tree-file">ARCHITECTURE_AI_PIPELINE.md</span>       <span class="tree-comment"># Especificação detalhada da esteira de 4 tiers e cron</span>
+├── <span class="tree-file">PRODUCT_VISION.md</span>                 <span class="tree-comment"># Requisitos de produto, personas e estética pulp</span>
+├── <span class="tree-file">FSD.md</span>                            <span class="tree-comment"># Functional Specification Document (FSD)</span>
+├── <span class="tree-folder">server/</span>
+│   ├── <span class="tree-folder">config/</span>                       <span class="tree-comment"># Configurações tipadas e chaves de ambiente</span>
+│   ├── <span class="tree-folder">repositories/</span>                 <span class="tree-comment"># DATA ACCESS LAYER (Persistência)</span>
+│   │   ├── <span class="tree-file">database.js</span>               <span class="tree-comment"># Pool PostgreSQL com DDL auto-migrante no bootstrap</span>
+│   │   ├── <span class="tree-file">planetRepository.js</span>       <span class="tree-comment"># Abstração de queries e rotação de exoplanetas</span>
+│   │   ├── <span class="tree-file">mintRepository.js</span>         <span class="tree-comment"># Registro de emissão de colecionador e proveniência</span>
+│   │   └── <span class="tree-file">subscriberRepository.js</span>   <span class="tree-comment"># Gestão de assinantes de notificações diárias</span>
+│   ├── <span class="tree-folder">services/</span>                     <span class="tree-comment"># BUSINESS LOGIC LAYER (Regras de Negócio)</span>
+│   │   ├── <span class="tree-file">aiImageService.js</span>         <span class="tree-comment"># Motor da cadeia em cascata de 4 níveis de IA</span>
+│   │   ├── <span class="tree-file">cryptoService.js</span>          <span class="tree-comment"># Injeção de chunk tEXt PNG e HMAC-SHA256</span>
+│   │   ├── <span class="tree-file">cronService.js</span>            <span class="tree-comment"># Schedulers (Cron semanal de IA e Daily Drop)</span>
+│   │   ├── <span class="tree-file">planetService.js</span>          <span class="tree-comment"># Orquestrador da rotação astronômica não-repetitiva</span>
+│   │   └── <span class="tree-file">emailService.js</span>           <span class="tree-comment"># Disparo transacional via Resend API</span>
+│   ├── <span class="tree-folder">controllers/</span>                  <span class="tree-comment"># PRESENTATION LAYER (HTTP Controllers)</span>
+│   │   ├── <span class="tree-file">cryptoController.js</span>       <span class="tree-comment"># Endpoint /api/verify-token</span>
+│   │   └── <span class="tree-file">planetController.js</span>       <span class="tree-comment"># Dados orbitais e telemetria ao vivo</span>
+│   ├── <span class="tree-folder">middlewares/</span>                  <span class="tree-comment"># Guards de autenticação e proteção contra abuso</span>
+│   └── <span class="tree-folder">routes/</span>                       <span class="tree-comment"># Roteador desacoplado da API Express</span>
+└── <span class="tree-file">server.js</span>                         <span class="tree-comment"># Bootstrap, Middlewares de segurança e SPA estático</span></code></pre>
+      </section>
+
+      <!-- Bottom Cross-Navigation Between Projects -->
+      <section class="project-nav-footer">
+        <h3 class="project-nav-footer-title">Conheça Outros Estudos de Caso de Arquitetura</h3>
+
+        <div class="nav-projects-cards">
+          <a href="gridfy.html" class="nav-project-card">
+            <div>
+              <div class="nav-project-meta">SaaS B2B Multi-tenant</div>
+              <h4 class="nav-project-title">Gridfy — Gestão de Conteúdo</h4>
+              <p class="nav-project-desc">
+                SaaS multi-tenant com esteira visual de produção, roteirização com foco em retenção e aprovação externa em 1 clique sem login via tokens criptografados.
+              </p>
+            </div>
+            <span class="nav-project-link-text">
+              Ver Estudo de Caso
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </span>
+          </a>
+
+          <a href="homewash.html" class="nav-project-card">
+            <div>
+              <div class="nav-project-meta">Marketplace & Concorrência Atômica</div>
+              <h4 class="nav-project-title">HomeWash — Intermediação Automotiva</h4>
+              <p class="nav-project-desc">
+                Plataforma em piloto em Fortaleza com modelo "primeiro que aceita leva". Clean Architecture, TypeScript 5.9, Express 5 e concorrência atômica no MongoDB.
+              </p>
+            </div>
+            <span class="nav-project-link-text">
+              Ver Estudo de Caso
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </span>
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container" style="text-align: center; padding: 3rem 0; border-top: 1px solid var(--border-color); margin-top: 4rem;">
+      <p style="color: var(--text-muted); font-size: 0.9rem;">
+        © 2026 <span style="color: var(--accent-cyan); font-weight: 600;">Lucas Gomes</span>. Arquitetura de Software & Desenvolvimento Web de Alto Padrão.
+      </p>
+    </div>
+  </footer>
+
+  <script src="../scripts.js"></script>
+</body>
+
+</html>

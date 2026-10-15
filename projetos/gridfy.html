@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="pt-BR" id="html-root">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary Meta Tags -->
+  <title>Gridfy — Estudo de Caso de Arquitetura & Engenharia de Software | Lucas Gomes</title>
+  <meta name="title" content="Gridfy — Estudo de Caso de Arquitetura & Engenharia de Software | Lucas Gomes" />
+  <meta name="description"
+    content="Estudo de caso detalhado da arquitetura, decisões técnicas e estruturação de software do Gridfy: SaaS multi-tenant para agências de marketing e aprovação sem login." />
+  <meta name="author" content="Lucas Gomes" />
+  <meta name="theme-color" content="#07090e" />
+
+  <!-- Favicon SVG -->
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2307090e'/%3E%3Ctext x='50%25' y='55%25' font-family='sans-serif' font-size='15' font-weight='800' fill='%2300f2fe' text-anchor='middle' dominant-baseline='middle'%3ELG%3C/text%3E%3C/svg%3E" />
+
+  <!-- Content Security Policy -->
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://github.com https://*.githubusercontent.com; connect-src 'self';" />
+
+  <!-- Fonts & Stylesheet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+
+<body>
+  <!-- Ambient Background Particle Lights -->
+  <div class="bg-ambient" aria-hidden="true">
+    <div class="glow-orb-1"></div>
+    <div class="glow-orb-2"></div>
+  </div>
+
+  <!-- Top Sticky Navigation Bar -->
+  <header class="case-nav" role="banner">
+    <div class="container case-nav-container">
+      <a href="../index.html#projects" class="btn-back-cv" aria-label="Voltar para a página principal do currículo">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+        <span>Voltar ao Currículo</span>
+      </a>
+
+      <div class="case-nav-actions">
+        <span class="badge-repo-private" title="Código-fonte comercial sob proteção de propriedade intelectual">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          <span>Código Proprietário (SaaS)</span>
+        </span>
+
+        <a href="https://gridfy.luckhaosbb.dev/" target="_blank" rel="noopener noreferrer"
+          class="btn-case-action primary" title="Abrir Gridfy em Produção">
+          <span>Abrir Aplicação</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="case-study-page">
+    <div class="container">
+
+      <!-- Case Hero Section -->
+      <section class="case-hero">
+        <span class="case-hero-tag">// ESTUDO DE CASO DE ARQUITETURA — SAAS MULTI-TENANT</span>
+        <h1 class="case-hero-title">
+          Gridfy — Gestão Centralizada & <br />
+          <span class="gradient-text">Validação de Conteúdo Social Media</span>
+        </h1>
+        <p class="case-hero-subtitle">
+          Plataforma SaaS multi-tenant concebida para agências de publicidade e criadores de conteúdo.
+          Resolve a fragmentação operacional entre planilhas, editores soltos e WhatsApp através de uma esteira
+          unificada de roteirização com retenção, passagem de bastão técnica e aprovação externa em 1 clique sem login.
+        </p>
+
+        <div class="case-hero-actions">
+          <a href="https://gridfy.luckhaosbb.dev/" target="_blank" rel="noopener noreferrer"
+            class="btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+            <span>Acessar Projeto em Produção</span>
+          </a>
+
+          <span class="btn-secondary is-static" title="Código proprietário protegido por propriedade intelectual">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <span>Código Privado (SaaS Comercial)</span>
+          </span>
+
+          <a href="../index.html#projects" class="btn-secondary">
+            <span>← Ver Outros Projetos</span>
+          </a>
+        </div>
+
+        <!-- Key Architectural Metrics -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-header">
+              <svg class="metric-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+              <span class="metric-label">Arquitetura</span>
+            </div>
+            <div class="metric-value">Multi-Tenant Estrito</div>
+            <p class="metric-desc">Isolamento rigoroso por Workspace e Marcas com políticas de acesso RBAC aplicadas em Server Actions e ORM.</p>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <svg class="metric-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+              <span class="metric-label">Experiência do Cliente</span>
+            </div>
+            <div class="metric-value">Zero Login / 1-Click</div>
+            <p class="metric-desc">Validação externa segura via token hash atrelado a Marca + Mês (/cronograma?c=TOKEN&mes=AAAA-MM) com rate limiting.</p>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <svg class="metric-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+                <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+              </svg>
+              <span class="metric-label">Custos & Storage</span>
+            </div>
+            <div class="metric-value">Zero Storage Bloat</div>
+            <p class="metric-desc">Catalogação e ordenação de mídias pesadas consumidas diretamente do Google Drive público sem sobrecarga no servidor.</p>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <svg class="metric-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+              <span class="metric-label">Confiabilidade</span>
+            </div>
+            <div class="metric-value">Auditoria Imutável</div>
+            <p class="metric-desc">Soft delete mandatório com travas hierárquicas, lixeira restrita ao Gestor e trilha cumulativa de eventos.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 1: Business Problem & Value Proposition -->
+      <section class="case-section-block">
+        <span class="section-tag">// 01. VISÃO DO PRODUTO</span>
+        <h2 class="case-section-title">O Desafio Operacional & A Solução</h2>
+
+        <div class="case-split-grid">
+          <div class="case-card-inner">
+            <h3>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="15" y1="9" x2="9" y2="15"></line>
+                <line x1="9" y1="9" x2="15" y2="15"></line>
+              </svg>
+              Gargalos do Fluxo Tradicional
+            </h3>
+            <p>Em agências e assessorias convencionais, a produção para redes sociais sofre de dispersão caótica de canais:</p>
+            <ul class="case-list">
+              <li><strong>Fragmentação de Dados:</strong> Pautas em planilhas, roteiros em Docs, vídeos no Google Drive e cobranças perdidas no WhatsApp.</li>
+              <li><strong>Handoff Criativo Ruidoso:</strong> Designers recebem textos sem formato padronizado, gerando retrabalhos frequentes por falta de especificações visuais.</li>
+              <li><strong>Rejeição a Logins Complexos:</strong> Clientes finais não toleram cadastros corporativos com confirmação por e-mail e senhas para aprovar publicações no celular.</li>
+              <li><strong>Ajustes Genéricos Sem Rastreio:</strong> Feedbacks vagos como "não gostei" provocavam conflito interno entre redatores e designers sem histórico de solicitações.</li>
+            </ul>
+          </div>
+
+          <div class="case-card-inner">
+            <h3>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+              A Engenharia do Gridfy
+            </h3>
+            <p>O Gridfy foi arquitetado como uma esteira unificada e rastreável:</p>
+            <ul class="case-list">
+              <li><strong>Brand Kit Dinâmico Integrado:</strong> Identidade visual (cores, logo, tom de voz) sempre acessível no topo do fluxo criativo sem troca de abas.</li>
+              <li><strong>Dupla Visualização Estratégica:</strong> Calendário Mensal para planejamento macro e Line de Posts vertical para edição contínua.</li>
+              <li><strong>Roteirização Guiada de Retenção:</strong> Método estruturado em 4 etapas (Gancho de Atenção, Corpo do Conteúdo, Call to Action e Legenda).</li>
+              <li><strong>Aprovação em 1 Clique Sem Senha:</strong> Link público direto por WhatsApp protegido por token temporal por mês e canalização de ajustes categorizados (Texto vs. Arte).</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="case-callout">
+          <div class="case-callout-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            Visão de Experiência do Usuário (Desktop vs. Mobile)
+          </div>
+          <p>
+            A equipe interna da agência (gestores, redatores e designers) opera em telas grandes com foco na densidade do cronograma e roteirização detalhada. O cliente final acessa exclusivamente pelo smartphone, recebendo links diretos onde visualiza o carrossel/vídeo fielmente e aprova ou solicita ajuste em menos de 10 segundos.
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 2: Architecture & System Design -->
+      <section class="case-section-block">
+        <span class="section-tag">// 02. ARQUITETURA DE SOFTWARE</span>
+        <h2 class="case-section-title">Design Estrutural & Fluxo em Camadas</h2>
+
+        <div class="arch-diagram-card">
+          <!-- Presentation Layer -->
+          <div class="diagram-layer">
+            <div class="diagram-layer-header">
+              <span class="layer-title">Camada de Apresentação (View / UI)</span>
+              <span class="layer-badge">Next.js App Router (RSC + Client)</span>
+            </div>
+            <div class="layer-items">
+              <span class="layer-item-pill">React Server Components</span>
+              <span class="layer-item-pill">Calendário Mensal (Client State)</span>
+              <span class="layer-item-pill">Line de Posts (Virtual Scroll)</span>
+              <span class="layer-item-pill">Tailwind CSS + Radix UI</span>
+              <span class="layer-item-pill">Visualizador Mobile Tokenizado</span>
+            </div>
+          </div>
+
+          <div class="layer-connector">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 5v14M19 12l-7 7-7-7" />
+            </svg>
+          </div>
+
+          <!-- Application Layer -->
+          <div class="diagram-layer">
+            <div class="diagram-layer-header">
+              <span class="layer-title">Camada de Aplicação & Orquestração (Controllers / Actions)</span>
+              <span class="layer-badge">Node.js LTS / TypeScript</span>
+            </div>
+            <div class="layer-items">
+              <span class="layer-item-pill">Server Actions (Mutações Tipadas)</span>
+              <span class="layer-item-pill">Route Handlers (Token Verification)</span>
+              <span class="layer-item-pill">RBAC Guard Middleware</span>
+              <span class="layer-item-pill">IP Rate Limiting (Token Security)</span>
+              <span class="layer-item-pill">Sanitização e Validação Zod</span>
+            </div>
+          </div>
+
+          <div class="layer-connector">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 5v14M19 12l-7 7-7-7" />
+            </svg>
+          </div>
+
+          <!-- Business & Data Access Layer -->
+          <div class="diagram-layer">
+            <div class="diagram-layer-header">
+              <span class="layer-title">Camada de Dados & Integrações Externas (Data Access & Infra)</span>
+              <span class="layer-badge">PostgreSQL + Supabase + Prisma ORM</span>
+            </div>
+            <div class="layer-items">
+              <span class="layer-item-pill">Prisma Relational Client</span>
+              <span class="layer-item-pill">PostgreSQL Indexes (Workspace, Month, Status)</span>
+              <span class="layer-item-pill">Supabase Auth & Storage (Brand Kits)</span>
+              <span class="layer-item-pill">Google Drive Public Stream Parser</span>
+              <span class="layer-item-pill">Soft Delete (deleted_at & deleted_by)</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Technical Decision Records (ADRs) -->
+      <section class="case-section-block">
+        <span class="section-tag">// 03. DECISÕES DE ENGENHARIA</span>
+        <h2 class="case-section-title">Architectural Decision Records (ADRs)</h2>
+
+        <div class="adr-grid">
+          <!-- ADR 1 -->
+          <div class="adr-card">
+            <div class="adr-header">
+              <span class="adr-id">ADR-01</span>
+              <span class="adr-status">APROVADO & IMPLEMENTADO</span>
+              <h3 class="adr-title">Next.js App Router com Server Actions vs. API REST Externa</h3>
+            </div>
+            <div class="adr-row">
+              <span class="adr-row-label">Contexto & Desafio:</span>
+              Necessidade de renderização ultra-rápida do calendário mensal e formulários de alta densidade sem duplicar contratos de API entre frontend e backend em um time enxuto.
+            </div>
+            <div class="adr-row">
+              <span class="adr-row-label">Decisão Técnica:</span>
+              Adotar o Next.js App Router com React Server Components para leitura de dados e Server Actions para mutações com tipagem TypeScript ponta a ponta.
+            </div>
+            <div class="adr-row">
+              <span class="adr-row-label">Trade-offs & Consequências:</span>
+              Elimina overhead de serialização de endpoints REST intermediários e sincronização de SDKs. A segurança de cookies de sessão HTTP-only e verificações de RBAC são validadas diretamente no ambiente de execução do servidor antes de tocar o banco.
+            </div>
+          </div>
+
+          <!-- ADR 2 -->
+          <div class="adr-card">
+            <div class="adr-header">
+              <span class="adr-id">ADR-02</span>
+              <span class="adr-status">APROVADO & IMPLEMENTADO</span>
+              <h3 class="adr-title">Aprovação Externa via Token Criptográfico por Mês vs. Login/Senha Tradicional</h3>
+            </div>
+            <div class="adr-row">
+              <span class="adr-row-label">Contexto & Desafio:</span>
+              Clientes corporativos de agência rejeitam cadastros e memorização de senhas para aprovar posts em rotinas dinâmicas de smartphone.
+            </div>
+            <div class="adr-row">
+              <span class="adr-row-label">Decisão Técnica:</span>
+              Endpoint público <code>/cronograma?c=TOKEN&mes=AAAA-MM</code> protegido por token hash criptográfico atrelado exclusivamente ao par Marca + Mês de referência, com rate limiting por IP.
+            </div>
+            <div class="adr-row">
+              <span class="adr-row-label">Trade-offs & Consequências:</span>
+              Adoção de 100% pelos clientes pelo WhatsApp sem fricção de login. A segurança é mantida por entropia criptográfica do token, escopo limitado ao mês especificado e impossibilidade de varredura automatizada por limitação de requisições por IP.
+            </div>
+          </div>
+
+          <!-- ADR 3 -->
+          <div class="adr-card">
+            <div class="adr-header">
+              <span class="adr-id">ADR-03</span>
+              <span class="adr-status">APROVADO & IMPLEMENTADO</span>
+              <h3 class="adr-title">Consumo de Mídias via Pastas do Google Drive vs. Armazenamento Bruto no SaaS</h3>
+            </div>
+            <div class="adr-row">
+              <span class="adr-row-label">Contexto & Desafio:</span>
+              Arquivos de vídeo em alta resolução e carrosséis pesados geram custos exponenciais de bandwidth e cloud storage em instâncias de SaaS em estágio inicial.
+            </div>
+            <div class="adr-row">
+              <span class="adr-row-label">Decisão Técnica:</span>
+              Upload direto restrito ao logotipo oficial do Brand Kit no Supabase Storage. As mídias pesadas de cada postagem são consumidas e catalogadas diretamente a partir de pastas públicas do Google Drive.
+            </div>
+            <div class="adr-row">
+              <span class="adr-row-label">Trade-offs & Consequências:</span>
+              Custo de armazenamento reduzido a zero para mídias pesadas no SaaS, sem lentidão de upload no servidor da aplicação. O sistema identifica e ordena lâminas de carrossel e players verticais de vídeo sem onerar o banco de dados.
+            </div>
+          </div>
+
+          <!-- ADR 4 -->
+          <div class="adr-card">
+            <div class="adr-header">
+              <span class="adr-id">ADR-04</span>
+              <span class="adr-status">APROVADO & IMPLEMENTADO</span>
+              <h3 class="adr-title">Política Estrita de Soft Delete & Trilha de Auditoria Imutável</h3>
+            </div>
+            <div class="adr-row">
+              <span class="adr-row-label">Contexto & Desafio:</span>
+              Risco crítico de exclusão acidental de postagens planejadas ou aprovadas em plataformas abertas, destruindo o histórico acordado com o cliente.
+            </div>
+            <div class="adr-row">
+              <span class="adr-row-label">Decisão Técnica:</span>
+              Exclusão lógica mandatória através dos campos <code>deleted_at</code> e <code>deleted_by</code>. Operadores (roteiristas/designers) só podem deletar posts no status Ideia criados por eles mesmos. Visualização de lixeira e restauração pertencem exclusivamente ao Gestor.
+            </div>
+            <div class="adr-row">
+              <span class="adr-row-label">Trade-offs & Consequências:</span>
+              Garantia de zero perda acidental de dados, rastreabilidade forense de todas as ações e consultas filtradas por índices parciais no PostgreSQL para manter alta performance.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: Security & RBAC -->
+      <section class="case-section-block">
+        <span class="section-tag">// 04. SEGURANÇA & CONTROLE DE ACESSO</span>
+        <h2 class="case-section-title">Matriz de Permissões RBAC (Role-Based Access Control)</h2>
+
+        <div class="case-card-inner">
+          <p style="margin-bottom: 1.5rem;">
+            O Gridfy opera com isolamento multi-tenant absoluto por agência e por marcas. Colaboradores internos
+            operam unicamente nas marcas em que foram formalmente vinculados pelo Administrador:
+          </p>
+
+          <div class="case-split-grid">
+            <div class="spec-item">
+              <div class="spec-key">Perfil Gestor (Admin)</div>
+              <div class="spec-val">Acesso Global & Gestão</div>
+              <p class="spec-detail">Gestão de workspace, parametrização de marcas e Brand Kits, vinculação de operadores, fechamento mensal, auditoria completa, lixeira e restauração de posts.</p>
+            </div>
+
+            <div class="spec-item">
+              <div class="spec-key">Perfil Roteirista</div>
+              <div class="spec-val">Criação & Roteirização</div>
+              <p class="spec-detail">Criação de pautas nas marcas vinculadas, preenchimento do método guiado (Gancho, Corpo, CTA, Legenda), exclusão exclusiva de suas próprias ideias e handoff para design.</p>
+            </div>
+
+            <div class="spec-item">
+              <div class="spec-key">Perfil Designer / Editor</div>
+              <div class="spec-val">Produção Audiovisual</div>
+              <p class="spec-detail">Visualização das diretrizes visuais do Brand Kit, vinculação de links de mídias e pastas do Google Drive, movimentação de status na esteira criativa.</p>
+            </div>
+
+            <div class="spec-item">
+              <div class="spec-key">Perfil Cliente Final</div>
+              <div class="spec-val">Validação Sem Login</div>
+              <p class="spec-detail">Acesso restrito ao cronograma do mês via token, aprovação expressa em 1 clique ou solicitação de ajuste com justificativa obrigatória e etiqueta (Texto vs. Arte).</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: Tech Stack & Directory Tree -->
+      <section class="case-section-block">
+        <span class="section-tag">// 05. ESPECIFICAÇÕES TÉCNICAS</span>
+        <h2 class="case-section-title">Stack Homologada & Organização Modular</h2>
+
+        <div class="tech-spec-grid" style="margin-bottom: 2rem;">
+          <div class="spec-item">
+            <div class="spec-key">Framework Frontend/Backend</div>
+            <div class="spec-val">Next.js 15 (App Router)</div>
+            <div class="spec-detail">React Server Components & Server Actions</div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-key">Linguagem & Tipagem</div>
+            <div class="spec-val">TypeScript 5.x</div>
+            <div class="spec-detail">Strict mode ponta a ponta</div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-key">Banco de Dados</div>
+            <div class="spec-val">PostgreSQL (Supabase)</div>
+            <div class="spec-detail">Instância relacional gerenciada em nuvem</div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-key">Modelagem ORM</div>
+            <div class="spec-val">Prisma ORM</div>
+            <div class="spec-detail">Migrações declarativas e DTOs tipados</div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-key">Design System & UI</div>
+            <div class="spec-val">Tailwind CSS + Radix UI</div>
+            <div class="spec-detail">Componentes acessíveis Shadcn UI</div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-key">Infraestrutura & Hosting</div>
+            <div class="spec-val">Vercel + Supabase Cloud</div>
+            <div class="spec-detail">Deploys contínuos integrados ao Git</div>
+          </div>
+        </div>
+
+        <pre class="code-tree-block"><code><span class="tree-folder">gridfy/</span>
+├── <span class="tree-folder">app/</span>                               <span class="tree-comment"># Next.js App Router (Páginas, Layouts e Server Components)</span>
+│   ├── <span class="tree-file">layout.tsx</span>                     <span class="tree-comment"># Root Layout com temas, fontes e provedores de contexto</span>
+│   ├── <span class="tree-file">page.tsx</span>                       <span class="tree-comment"># Landing e redirect autenticado</span>
+│   ├── <span class="tree-folder">(auth)/</span>                        <span class="tree-comment"># Fluxo seguro de autenticação interna (login, reset de senha)</span>
+│   ├── <span class="tree-folder">(dashboard)/</span>                   <span class="tree-comment"># Workspace da agência (rotas protegidas por RBAC)</span>
+│   │   ├── <span class="tree-folder">marcas/</span>                    <span class="tree-comment"># Gestão de marcas e Brand Kits da agência</span>
+│   │   ├── <span class="tree-folder">cronograma/</span>                <span class="tree-comment"># Calendário Mensal e Line de Posts operacional</span>
+│   │   └── <span class="tree-folder">lixeira/</span>                   <span class="tree-comment"># Visualização e restauração restrita ao Gestor</span>
+│   └── <span class="tree-folder">api/</span>                           <span class="tree-comment"># Route Handlers e validação pública de tokens</span>
+│       └── <span class="tree-folder">cronograma/</span>
+│           └── <span class="tree-file">route.ts</span>               <span class="tree-comment"># Endpoint público do cliente com rate-limit e token hash</span>
+├── <span class="tree-folder">actions/</span>                           <span class="tree-comment"># Server Actions (Mutations com validação Zod e RBAC)</span>
+│   ├── <span class="tree-file">posts.ts</span>                       <span class="tree-comment"># Criação, edição, movimentação de status e soft delete</span>
+│   ├── <span class="tree-file">aprovacao.ts</span>                   <span class="tree-comment"># Validação expressa e canalização de ajustes (Texto/Arte)</span>
+│   └── <span class="tree-file">marcas.ts</span>                      <span class="tree-comment"># Upload de Brand Kit e vinculação de operadores</span>
+├── <span class="tree-folder">components/</span>                        <span class="tree-comment"># Componentes reutilizáveis (UI, Calendário, Modais)</span>
+│   ├── <span class="tree-folder">calendar/</span>                      <span class="tree-comment"># Visualização em grade mensal com densidade de status</span>
+│   ├── <span class="tree-folder">post-line/</span>                     <span class="tree-comment"># Feed vertical de cartões com player e carrossel Drive</span>
+│   └── <span class="tree-folder">brand-kit/</span>                     <span class="tree-comment"># Header fixo com paleta, fontes e tom de voz da marca</span>
+├── <span class="tree-folder">prisma/</span>
+│   └── <span class="tree-file">schema.prisma</span>                  <span class="tree-comment"># Modelagem relacional, índices de busca e soft delete</span>
+└── <span class="tree-file">middleware.ts</span>                      <span class="tree-comment"># Edge middleware para proteção de rotas e sessões HTTP-only</span></code></pre>
+      </section>
+
+      <!-- Bottom Cross-Navigation Between Projects -->
+      <section class="project-nav-footer">
+        <h3 class="project-nav-footer-title">Conheça Outros Estudos de Caso de Arquitetura</h3>
+
+        <div class="nav-projects-cards">
+          <a href="homewash.html" class="nav-project-card">
+            <div>
+              <div class="nav-project-meta">Marketplace & Concorrência Atômica</div>
+              <h4 class="nav-project-title">HomeWash — Intermediação Automotiva</h4>
+              <p class="nav-project-desc">
+                Plataforma em piloto em Fortaleza com modelo "primeiro que aceita leva". Clean Architecture, TypeScript 5.9, Express 5 e concorrência atômica no MongoDB.
+              </p>
+            </div>
+            <span class="nav-project-link-text">
+              Ver Estudo de Caso
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </span>
+          </a>
+
+          <a href="exoplanetas.html" class="nav-project-card">
+            <div>
+              <div class="nav-project-meta">3D WebGL Shaders & AI Pipeline</div>
+              <h4 class="nav-project-title">Extreme Exoplanets — Telemetria 3D</h4>
+              <p class="nav-project-desc">
+                Aplicação full-stack com rotação diária automatizada da NASA, sensores CRT 3D em WebGL, esteganografia HMAC-SHA256 e redundância em cascata de 4 níveis de IA.
+              </p>
+            </div>
+            <span class="nav-project-link-text">
+              Ver Estudo de Caso
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </span>
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container" style="text-align: center; padding: 3rem 0; border-top: 1px solid var(--border-color); margin-top: 4rem;">
+      <p style="color: var(--text-muted); font-size: 0.9rem;">
+        © 2026 <span style="color: var(--accent-cyan); font-weight: 600;">Lucas Gomes</span>. Arquitetura de Software & Desenvolvimento Web de Alto Padrão.
+      </p>
+    </div>
+  </footer>
+
+  <script src="../scripts.js"></script>
+</body>
+
+</html>

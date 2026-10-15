@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="pt-BR" id="html-root">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary Meta Tags -->
+  <title>HomeWash — Estudo de Caso de Arquitetura & Engenharia de Software | Lucas Gomes</title>
+  <meta name="title" content="HomeWash — Estudo de Caso de Arquitetura & Engenharia de Software | Lucas Gomes" />
+  <meta name="description"
+    content="Estudo de caso aprofundado da arquitetura do HomeWash: marketplace sob demanda com concorrência atômica condicional no MongoDB, TypeScript 5.9 e contrato OpenAPI estrito." />
+  <meta name="author" content="Lucas Gomes" />
+  <meta name="theme-color" content="#07090e" />
+
+  <!-- Favicon SVG -->
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2307090e'/%3E%3Ctext x='50%25' y='55%25' font-family='sans-serif' font-size='15' font-weight='800' fill='%2300f2fe' text-anchor='middle' dominant-baseline='middle'%3ELG%3C/text%3E%3C/svg%3E" />
+
+  <!-- Content Security Policy -->
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://github.com https://*.githubusercontent.com; connect-src 'self';" />
+
+  <!-- Fonts & Stylesheet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+
+<body>
+  <!-- Ambient Background Particle Lights -->
+  <div class="bg-ambient" aria-hidden="true">
+    <div class="glow-orb-1"></div>
+    <div class="glow-orb-2"></div>
+  </div>
+
+  <!-- Top Sticky Navigation Bar -->
+  <header class="case-nav" role="banner">
+    <div class="container case-nav-container">
+      <a href="../index.html#projects" class="btn-back-cv" aria-label="Voltar para a página principal do currículo">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+        <span>Voltar ao Currículo</span>
+      </a>
+
+      <div class="case-nav-actions">
+        <a href="https://github.com/thebylito/home-wash" target="_blank" rel="noopener noreferrer"
+          class="btn-case-action secondary" title="Ver Código no GitHub">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+          </svg>
+          <span>Repositório</span>
+        </a>
+
+        <a href="https://homewash.thebylito.dev/" target="_blank" rel="noopener noreferrer"
+          class="btn-case-action primary" title="Abrir HomeWash em Produção">
+          <span>Abrir Aplicação</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="case-study-page">
+    <div class="container">
+
+      <!-- Case Hero Section -->
+      <section class="case-hero">
+        <span class="case-hero-tag">// ESTUDO DE CASO DE ARQUITETURA — MARKETPLACE & CONCORRÊNCIA ATÔMICA</span>
+        <h1 class="case-hero-title">
+          HomeWash — Intermediação Sob Demanda & <br />
+          <span class="gradient-text">Concorrência Atômica Sem Distributed Locks</span>
+        </h1>
+        <p class="case-hero-subtitle">
+          Plataforma web de intermediação de lavagem automotiva a domicílio em operação piloto em Fortaleza
+          (Aldeota, Meireles e Papicu). Arquitetada sob Clean Architecture e TypeScript 5.9 end-to-end,
+          implementa a regra "o primeiro que aceita leva" com resolução atômica no MongoDB, contrato OpenAPI verificado no CI e segurança estrita de cookies host-only.
+        </p>
+
+        <div class="case-hero-actions">
+          <a href="https://homewash.thebylito.dev/" target="_blank" rel="noopener noreferrer"
+            class="btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+            <span>Acessar Projeto em Produção</span>
+          </a>
+
+          <a href="https://github.com/thebylito/home-wash" target="_blank" rel="noopener noreferrer"
+            class="btn-secondary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+            </svg>
+            <span>Ver Repositório GitHub</span>
+          </a>
+
+          <a href="../index.html#projects" class="btn-secondary">
+            <span>← Ver Outros Projetos</span>
+          </a>
+        </div>
+
+        <!-- Key Architectural Metrics -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-header">
+              <svg class="metric-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+              </svg>
+              <span class="metric-label">Concorrência</span>
+            </div>
+            <div class="metric-value">Atômica Condicional</div>
+            <p class="metric-desc">Resolução de corrida de aceite exclusivo via <code>findOneAndUpdate</code> com filtro de status sem necessitar de distributed lock (Redis/Redlock).</p>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <svg class="metric-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+              </svg>
+              <span class="metric-label">Contrato de API</span>
+            </div>
+            <div class="metric-value">OpenAPI Auto-Emitido</div>
+            <p class="metric-desc">Controllers declarativos com validação Zod geram OpenAPI. O CI falha a compilação do front se os tipos gerados divergirem do backend.</p>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <svg class="metric-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              <span class="metric-label">Segurança de Sessão</span>
+            </div>
+            <div class="metric-value">JWT Host-Only</div>
+            <p class="metric-desc">Cookie httpOnly, Secure e SameSite=Lax deliberadamente sem atributo Domain, prevenindo vazamento de credenciais para outros subdomínios da VPS Dokploy.</p>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <svg class="metric-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+              </svg>
+              <span class="metric-label">Linguagem Unificada</span>
+            </div>
+            <div class="metric-value">TypeScript 5.9 Estrito</div>
+            <p class="metric-desc">Zero troca de contexto: Node.js 22 + Express 5 no backend e React 19 + Vite 8 no frontend, com compilação reprodutível via GitHub Actions.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 1: Business Model & Problem -->
+      <section class="case-section-block">
+        <span class="section-tag">// 01. MODELO DE NEGÓCIO & PILOTO</span>
+        <h2 class="case-section-title">O Desafio do Aceite Exclusivo sob Demanda</h2>
+
+        <div class="case-split-grid">
+          <div class="case-card-inner">
+            <h3>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M12 6v6l4 2"></path>
+              </svg>
+              Regra Central: "Primeiro que Aceita Leva"
+            </h3>
+            <p>
+              Ao contrário de marketplaces tradicionais de cotação lenta, o HomeWash foi desenhado para eliminar a fricção de escolha e negociação:
+            </p>
+            <ul class="case-list">
+              <li><strong>Preço Tabelado e Imutável:</strong> O cliente escolhe o serviço e o veículo pelo valor fixado pela plataforma, sem necessidade de comparar propostas individuais.</li>
+              <li><strong>Mural Georreferenciado:</strong> Lavadores aprovados que atendem bairros específicos de Fortaleza visualizam solicitações pendentes instantaneamente.</li>
+              <li><strong>Aceite Único e Exclusivo (F8):</strong> O primeiro prestador que confirma o atendimento ganha o pedido. Nenhum outro prestador pode assumi-lo concorrentemente.</li>
+            </ul>
+          </div>
+
+          <div class="case-card-inner">
+            <h3>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              Disciplina UNIFOR & Escopo do Piloto
+            </h3>
+            <p>
+              Projeto desenvolvido na disciplina <em>Projeto Aplicado em Desenvolvimento de Software</em> na Universidade de Fortaleza (UNIFOR), sob rigorosa governança de engenharia:
+            </p>
+            <ul class="case-list">
+              <li><strong>Delimitação Territorial:</strong> Piloto em 3 bairros contíguos de Fortaleza (Aldeota, Meireles e Papicu).</li>
+              <li><strong>Sem Servidor de Aplicação Pesado:</strong> Substituição de topologias pesadas (Java EE / WildFly) por processos Node.js conteinerizados ultraleves.</li>
+              <li><strong>Design System Modernist:</strong> Interface orientada a tokens semânticos, responsiva de 360px a 1440px sem aplicativos nativos desnecessários.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="case-callout">
+          <div class="case-callout-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            O Desafio da Concorrência Real
+          </div>
+          <p>
+            Em um modelo de alta disputa onde múltiplos lavadores olham o mesmo mural simultaneamente, o risco de dois prestadores clicarem em "Aceitar" na mesma fração de segundo é real. A integridade do sistema não podia depender de travas na interface (que são facilmente burladas via requisições diretas à API) nem de locks de memória locais (que falham caso a aplicação escale horizontalmente).
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 2: Deep Dive into Atomic Concurrency Pattern -->
+      <section class="case-section-block">
+        <span class="section-tag">// 02. PADRÃO DE CONCORRÊNCIA</span>
+        <h2 class="case-section-title">Resolução Atômica no MongoDB sem Distributed Locks</h2>
+
+        <div class="case-card-inner" style="margin-bottom: 1.5rem;">
+          <p>
+            Em vez de introduzir uma camada extra de infraestrutura com Redis e o algoritmo Redlock para gerenciar locks distribuídos de curta duração, a arquitetura do HomeWash aproveitou a semântica de documento único do MongoDB:
+          </p>
+
+          <div class="code-tree-block" style="margin: 1.5rem 0;">
+<span class="tree-comment">// Operação atômica condicional no nível do storage engine do MongoDB</span>
+<span class="tree-comment">// Se 10 prestadores enviarem o POST simultaneamente, exatamente 1 obterá o documento atualizado</span>
+<span class="tree-file">const</span> resultado = <span class="tree-file">await</span> SolicitacaoModel.<span class="tree-folder">findOneAndUpdate</span>(
+  {
+    <span class="tree-file">_id</span>: solicitacaoId,
+    <span class="tree-file">status</span>: <span class="tree-folder">'CRIADO'</span> <span class="tree-comment">// Precondição atômica: só aceita se o status atual ainda for CRIADO</span>
+  },
+  {
+    <span class="tree-file">$set</span>: {
+      <span class="tree-file">status</span>: <span class="tree-folder">'ACEITO'</span>,
+      <span class="tree-file">prestadorId</span>: prestadorLogadoId,
+      <span class="tree-file">aceitoEm</span>: <span class="tree-file">new</span> Date()
+    }
+  },
+  { <span class="tree-file">new</span>: <span class="tree-folder">true</span> }
+);
+
+<span class="tree-file">if</span> (!resultado) {
+  <span class="tree-comment">// Retorno 409 Conflict: O pedido já foi aceito por outro profissional milissegundos antes</span>
+  <span class="tree-file">throw new</span> <span class="tree-folder">ConflictError</span>(<span class="tree-comment">'Esta solicitação já foi aceita por outro prestador.'</span>);
+}
+          </div>
+
+          <div class="case-split-grid">
+            <div class="spec-item">
+              <div class="spec-key">Sem Transações Distribuídas (2PC)</div>
+              <div class="spec-val">ACID ao Nível de Documento</div>
+              <p class="spec-detail">No MongoDB, a escrita sobre um documento único é inerentemente atômica e serializada pelo WiredTiger. Nenhuma transação multi-documento é necessária.</p>
+            </div>
+
+            <div class="spec-item">
+              <div class="spec-key">Agregado Completo em 1 Leitura</div>
+              <div class="spec-val">Domínio Orientado a Documentos</div>
+              <p class="spec-detail">Uma solicitação carrega o tipo de serviço, o endereço e o veículo encapsulados. Ela é lida inteira e nunca em pedaços fragmentados.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Architecture & API Contract -->
+      <section class="case-section-block">
+        <span class="section-tag">// 03. ARQUITETURA DO SISTEMA & CONTRATO DE API</span>
+        <h2 class="case-section-title">Contrato OpenAPI First com Emissão Declarativa</h2>
+
+        <div class="arch-diagram-card">
+          <!-- Presentation Layer -->
+          <div class="diagram-layer">
+            <div class="diagram-layer-header">
+              <span class="layer-title">Frontend (React 19 + Vite 8 + Tailwind 4)</span>
+              <span class="layer-badge">Nginx Static Server</span>
+            </div>
+            <div class="layer-items">
+              <span class="layer-item-pill">Modernist Design System</span>
+              <span class="layer-item-pill">Tipos TypeScript Gerados do OpenAPI</span>
+              <span class="layer-item-pill">Consumo de Cookie HttpOnly Host-Only</span>
+              <span class="layer-item-pill">Zero Erros de Contrato em Runtime</span>
+            </div>
+          </div>
+
+          <div class="layer-connector">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 5v14M19 12l-7 7-7-7" />
+            </svg>
+          </div>
+
+          <!-- Application Layer -->
+          <div class="diagram-layer">
+            <div class="diagram-layer-header">
+              <span class="layer-title">Backend (Node.js 22 + Express 5 + exjs-controllers 0.9)</span>
+              <span class="layer-badge">CI-Enforced OpenAPI & Scalar</span>
+            </div>
+            <div class="layer-items">
+              <span class="layer-item-pill">Controllers Declarativos com Decorators</span>
+              <span class="layer-item-pill">Validação de Entrada com Schemas Zod</span>
+              <span class="layer-item-pill">@Authorized('CLIENTE' | 'PRESTADOR' | 'ADMIN')</span>
+              <span class="layer-item-pill">OpenAPI Spec em /docs via Scalar</span>
+            </div>
+          </div>
+
+          <div class="layer-connector">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 5v14M19 12l-7 7-7-7" />
+            </svg>
+          </div>
+
+          <!-- Persistence Layer -->
+          <div class="diagram-layer">
+            <div class="diagram-layer-header">
+              <span class="layer-title">Persistência & Concorrência (MongoDB + Mongoose 9)</span>
+              <span class="layer-badge">Instância mongo-01</span>
+            </div>
+            <div class="layer-items">
+              <span class="layer-item-pill">6 Coleções & 10 Índices Otimizados</span>
+              <span class="layer-item-pill">Credencial Restrita readWrite</span>
+              <span class="layer-item-pill">findOneAndUpdate Condicional Atômico</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: Structural Decisions (ADRs) -->
+      <section class="case-section-block">
+        <span class="section-tag">// 04. DECISÕES ESTRUTURAIS & ADRs</span>
+        <h2 class="case-section-title">Architectural Decision Records (ADRs)</h2>
+
+        <div class="adr-grid">
+          <!-- ADR 1 -->
+          <div class="adr-card">
+            <div class="adr-header">
+              <span class="adr-id">ADR-01</span>
+              <span class="adr-status">APROVADO & IMPLEMENTADO</span>
+              <h3 class="adr-title">TypeScript 5.9 Estrito em Ambos os Aplicativos</h3>
+            </div>
+            <div class="adr-row">
+              <span class="adr-row-label">Critério da Decisão:</span>
+              Uma linguagem única para front e back elimina troca de contexto em uma equipe de cinco pessoas com prazo estrito de quatro meses. Os tipos do contrato da API são gerados a partir do OpenAPI e consumidos pelo front; quebras de contrato falham na compilação, nunca em produção.
+            </div>
+          </div>
+
+          <!-- ADR 2 -->
+          <div class="adr-card">
+            <div class="adr-header">
+              <span class="adr-id">ADR-02</span>
+              <span class="adr-status">APROVADO & IMPLEMENTADO</span>
+              <h3 class="adr-title">Express 5 + exjs-controllers vs. Frameworks Pesados</h3>
+            </div>
+            <div class="adr-row">
+              <span class="adr-row-label">Critério da Decisão:</span>
+              O framework entrega controllers decorados, injeção de dependência e validação Zod sem impor servidores Java EE ou WildFly pesados. O servidor de aplicação é o próprio processo Node conteinerizado.
+            </div>
+          </div>
+
+          <!-- ADR 3 -->
+          <div class="adr-card">
+            <div class="adr-header">
+              <span class="adr-id">ADR-03</span>
+              <span class="adr-status">APROVADO & IMPLEMENTADO</span>
+              <h3 class="adr-title">Sessão JWT com Cookie Host-Only e Sem Domain Wildcard</h3>
+            </div>
+            <div class="adr-row">
+              <span class="adr-row-label">Critério da Decisão:</span>
+              O cookie <code>homewash_sessao</code> é configurado como <code>httpOnly</code> (inviolável a XSS), <code>Secure</code> e <code>SameSite=Lax</code>. A ausência intencional do atributo <code>Domain</code> impede que o cookie seja compartilhado com outros subdomínios da infraestrutura Dokploy na VPS.
+            </div>
+          </div>
+
+          <!-- ADR 4 -->
+          <div class="adr-card">
+            <div class="adr-header">
+              <span class="adr-id">ADR-04</span>
+              <span class="adr-status">APROVADO & IMPLEMENTADO</span>
+              <h3 class="adr-title">Build Reprodutível no GitHub Actions (GHCR) & Dokploy</h3>
+            </div>
+            <div class="adr-row">
+              <span class="adr-row-label">Critério da Decisão:</span>
+              O GitHub Actions compila as imagens Docker e as publica no GHCR; nada é compilado na VPS de produção. A tag <code>:sha-&lt;commit&gt;</code> assegura rollback imutável e auditável com zero consumo de recursos na VPS durante o deploy.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: Tech Stack & Specs -->
+      <section class="case-section-block">
+        <span class="section-tag">// 05. ESPECIFICAÇÕES TÉCNICAS</span>
+        <h2 class="case-section-title">Resumo da Stack & Diretórios</h2>
+
+        <div class="tech-spec-grid" style="margin-bottom: 2rem;">
+          <div class="spec-item">
+            <div class="spec-key">Runtime & Linguagem</div>
+            <div class="spec-val">Node.js 22 + TypeScript 5.9</div>
+            <div class="spec-detail">Strict mode e typecheck obrigatório</div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-key">Backend Framework</div>
+            <div class="spec-val">Express 5 + exjs-controllers 0.9</div>
+            <div class="spec-detail">Injeção de dependência e Zod</div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-key">Frontend Framework</div>
+            <div class="spec-val">React 19 + Vite 8 + Tailwind 4</div>
+            <div class="spec-detail">Design system Modernist</div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-key">Banco de Dados</div>
+            <div class="spec-val">MongoDB + Mongoose 9</div>
+            <div class="spec-detail">Agregado documental atômico</div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-key">Contrato & Docs</div>
+            <div class="spec-val">OpenAPI 3.1 + Scalar</div>
+            <div class="spec-detail">Regeneração e validação via CI</div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-key">CI/CD & Deploy</div>
+            <div class="spec-val">GitHub Actions + GHCR + Dokploy</div>
+            <div class="spec-detail">Imagens imutáveis com tag :sha-commit</div>
+          </div>
+        </div>
+
+        <pre class="code-tree-block"><code><span class="tree-folder">home-wash/</span>
+├── <span class="tree-folder">docs/</span>                              <span class="tree-comment"># Governança de Software & Arquitetura (UNIFOR)</span>
+│   ├── <span class="tree-file">documento-de-visao.md</span>          <span class="tree-comment"># Requisitos R1-R7 e delimitação do piloto de Fortaleza</span>
+│   ├── <span class="tree-file">documento-de-arquitetura.md</span>    <span class="tree-comment"># Topologia técnica e decisões estruturais</span>
+│   └── <span class="tree-folder">superpowers/specs/</span>             <span class="tree-comment"># Especificações técnicas de design v1</span>
+├── <span class="tree-folder">backend/</span>                           <span class="tree-comment"># API Node.js 22 + Express 5</span>
+│   ├── <span class="tree-folder">src/controllers/</span>               <span class="tree-comment"># Controllers decorados (@Authorized, Zod schemas)</span>
+│   ├── <span class="tree-folder">src/services/</span>                  <span class="tree-comment"># Regras de negócio e aceite atômico (findOneAndUpdate)</span>
+│   ├── <span class="tree-folder">src/models/</span>                    <span class="tree-comment"># Schemas Mongoose (Solicitação, Usuário, Veículo)</span>
+│   └── <span class="tree-folder">src/middlewares/</span>               <span class="tree-comment"># Verificação de cookie host-only e RBAC</span>
+├── <span class="tree-folder">frontend/</span>                          <span class="tree-comment"># SPA React 19 + Vite 8</span>
+│   ├── <span class="tree-folder">src/api/</span>                       <span class="tree-comment"># Cliente HTTP e tipos gerados do OpenAPI</span>
+│   ├── <span class="tree-folder">src/components/</span>                <span class="tree-comment"># Componentes do Design System Modernist</span>
+│   └── <span class="tree-folder">src/pages/</span>                     <span class="tree-comment"># Mural do Prestador, Solicitação e Histórico</span>
+└── <span class="tree-folder">.github/workflows/</span>                 <span class="tree-comment"># CI/CD: Typecheck, validação de OpenAPI e build GHCR</span></code></pre>
+      </section>
+
+      <!-- Bottom Cross-Navigation Between Projects -->
+      <section class="project-nav-footer">
+        <h3 class="project-nav-footer-title">Conheça Outros Estudos de Caso de Arquitetura</h3>
+
+        <div class="nav-projects-cards">
+          <a href="gridfy.html" class="nav-project-card">
+            <div>
+              <div class="nav-project-meta">SaaS B2B Multi-tenant</div>
+              <h4 class="nav-project-title">Gridfy — Gestão de Conteúdo</h4>
+              <p class="nav-project-desc">
+                SaaS multi-tenant com esteira visual de produção, roteirização com foco em retenção e aprovação externa em 1 clique sem login via tokens criptografados.
+              </p>
+            </div>
+            <span class="nav-project-link-text">
+              Ver Estudo de Caso
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </span>
+          </a>
+
+          <a href="exoplanetas.html" class="nav-project-card">
+            <div>
+              <div class="nav-project-meta">3D WebGL Shaders & AI Pipeline</div>
+              <h4 class="nav-project-title">Extreme Exoplanets — Telemetria 3D</h4>
+              <p class="nav-project-desc">
+                Aplicação full-stack com rotação diária automatizada da NASA, sensores CRT 3D em WebGL, esteganografia HMAC-SHA256 e redundância em cascata de 4 níveis de IA.
+              </p>
+            </div>
+            <span class="nav-project-link-text">
+              Ver Estudo de Caso
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </span>
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container" style="text-align: center; padding: 3rem 0; border-top: 1px solid var(--border-color); margin-top: 4rem;">
+      <p style="color: var(--text-muted); font-size: 0.9rem;">
+        © 2026 <span style="color: var(--accent-cyan); font-weight: 600;">Lucas Gomes</span>. Arquitetura de Software & Desenvolvimento Web de Alto Padrão.
+      </p>
+    </div>
+  </footer>
+
+  <script src="../scripts.js"></script>
+</body>
+
+</html>
